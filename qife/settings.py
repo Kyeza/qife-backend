@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'django_celery_results',
     'djcelery_email',
     'phonenumber_field',
+    'coverage',
     'users',
 ]
 
