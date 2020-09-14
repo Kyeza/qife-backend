@@ -43,7 +43,7 @@ class UserManager(BaseUserManager):
         if not username and is_superuser:
             raise ValueError('The given username must be set')
         elif not username and not is_superuser:
-            raise ValueError('The given phone number must be set')
+            raise ValueError('A valid phone number must be set')
 
         email = self.normalize_email(email)
         user = self.model(username=username, email=email,
