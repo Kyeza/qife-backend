@@ -1,10 +1,10 @@
 from django.test import TestCase
 
-from users.models import User
+from users.models import User, Farmer, EquipmentOwner
 from users import utils
 
 
-class UserModelTests(TestCase):
+class UserModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -28,6 +28,7 @@ class UserModelTests(TestCase):
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
         self.assertTrue(user.is_active)
+        self.assertIsNone(user.user_type)
 
     def test_user_creation(self):
         user = User.objects.create_user(**self.normal_user)
@@ -38,6 +39,7 @@ class UserModelTests(TestCase):
         self.assertFalse(user.is_superuser)
         self.assertFalse(user.is_staff)
         self.assertTrue(user.is_active)
+        self.assertIsNone(user.user_type)
 
     def test_user_creation_with_invalid_phone_number_input(self):
         with self.assertRaisesMessage(ValueError, 'A valid phone number must be set'):
@@ -75,3 +77,49 @@ class UserModelTests(TestCase):
         self.assertEqual(user.username, formatted_phone_number)
         self.assertEqual(user.phone_number, formatted_phone_number)
         self.assertTrue(user.is_deleted)
+
+
+class FarmerModelTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.farmer = {
+            'phone_number': '0700000000'
+        }
+
+    def test_farmer_user_type_creation(self):
+        user = Farmer.objects.create_user(**self.farmer)
+
+        formatted_phone_number = utils.get_international_phone_number_format(self.farmer['phone_number'])
+
+        self.assertEqual(user.username, formatted_phone_number)
+        self.assertEqual(user.phone_number, formatted_phone_number)
+        self.assertFalse(user.is_superuser)
+        self.assertFalse(user.is_staff)
+        self.assertTrue(user.is_active)
+        # test user type
+        self.assertIs(user.user_type, User.UserTypes.FARMER)
+
+
+class EquipmentOwnerModelTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.owner = {
+            'phone_number': '0700000000'
+        }
+
+    def test_farmer_user_type_creation(self):
+        user = EquipmentOwner.objects.create_user(**self.owner)
+
+        formatted_phone_number = utils.get_international_phone_number_format(self.owner['phone_number'])
+
+        self.assertEqual(user.username, formatted_phone_number)
+        self.assertEqual(user.phone_number, formatted_phone_number)
+        self.assertFalse(user.is_superuser)
+        self.assertFalse(user.is_staff)
+        self.assertTrue(user.is_active)
+        # test user type
+        self.assertIs(user.user_type, User.UserTypes.EQUIP_OWNER)
+
+

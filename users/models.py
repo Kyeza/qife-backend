@@ -68,7 +68,13 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser, BaseModel):
+
+    class UserTypes(models.TextChoices):
+        FARMER = 'FARMER', 'Farmer'
+        EQUIP_OWNER = 'EQUIP_OWNER', 'Equipment Owner'
+
     phone_number = PhoneNumberField(verbose_name='phone number', unique=True, blank=True, null=True)
+    user_type = models.CharField(max_length=20, choices=UserTypes.choices, null=True, blank=True)
 
     objects = UserManager()
 
@@ -76,3 +82,37 @@ class User(AbstractUser, BaseModel):
         return str(self.phone_number) if not self.is_superuser else self.email
 
 
+class FarmerManager(UserManager):
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user_type=User.UserTypes.FARMER)
+
+
+class EquipmentOwnerManager(UserManager):
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user_type=User.UserTypes.EQUIP_OWNER)
+
+
+class Farmer(User):
+    objects = FarmerManager()
+
+    class Meta:
+        proxy = True
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.user_type = User.UserTypes.FARMER
+        return super().save(*args, **kwargs)
+
+
+class EquipmentOwner(User):
+    objects = EquipmentOwnerManager()
+
+    class Meta:
+        proxy = True
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.user_type = User.UserTypes.EQUIP_OWNER
+        return super().save(*args, **kwargs)

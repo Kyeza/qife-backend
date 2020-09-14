@@ -20,6 +20,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 
+admin.AdminSite.site_header = 'QIFE administration'
+admin.AdminSite.site_title = 'QIFE administration'
+
+
 def trigger_error(request):
     division_by_zero = 1 / 0
 
