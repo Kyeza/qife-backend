@@ -18,7 +18,7 @@ from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-
+from rest_framework.authtoken.views import obtain_auth_token
 
 admin.AdminSite.site_header = 'QIFE administration'
 admin.AdminSite.site_title = 'QIFE administration'
@@ -32,6 +32,7 @@ urlpatterns = [
     path('sentry-debug/', trigger_error),
     path('admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
+    path('login/', obtain_auth_token, name='login')
 ]
 
 # django debugging toolbar, only to work in debug mode

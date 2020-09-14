@@ -61,7 +61,8 @@ INSTALLED_APPS = [
     'djcelery_email',
     'phonenumber_field',
     'coverage',
-    'users',
+    'corsheaders',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -174,7 +175,6 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
-        'rest_framework_csv.renderers.CSVRenderer',
     ],
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
@@ -242,3 +242,5 @@ else:
         'http://localhost:3000', 'http://127.0.0.1:3000', 'http://0.0.0.0:3000', 'http://localhost', 'http://127.0.0.1',
         'http://0.0.0.0', 'https://jeffrey-game-web.herokuapp.com'
     ]
+
+DEFAULT_APP_PASSWORD = os.environ.get('DEFAULT_APP_PASSWORD', 'CHANGE_ME')

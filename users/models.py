@@ -1,10 +1,10 @@
 import uuid
 
+from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 from users import utils
@@ -54,7 +54,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, phone_number, password=None, **extra_fields):
+    def create_user(self, phone_number, password=settings.DEFAULT_APP_PASSWORD, **extra_fields):
 
         #  ensure phone number is in the format starting with +256
         phone_number = utils.get_international_phone_number_format(phone_number)
