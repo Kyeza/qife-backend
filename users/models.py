@@ -75,6 +75,7 @@ class User(AbstractUser, BaseModel):
 
     phone_number = PhoneNumberField(verbose_name='phone number', unique=True, blank=True, null=True)
     user_type = models.CharField(max_length=20, choices=UserTypes.choices, null=True, blank=True)
+    location = models.CharField(max_length=150, null=True, blank=True)
 
     objects = UserManager()
 
