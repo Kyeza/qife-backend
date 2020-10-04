@@ -32,7 +32,7 @@ urlpatterns = [
     path('sentry-debug/', trigger_error),
     path('admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
-    path('login/', obtain_auth_token, name='login')
+    path('api-token-auth/', obtain_auth_token, name='api-token-auth/')
 ]
 
 # django debugging toolbar, only to work in debug mode
