@@ -12,8 +12,6 @@ RUN groupadd -r celery && useradd --no-log-init -r -g celery celery
 
 COPY requirements.txt /code/
 RUN python -m pip install --upgrade pip
-
-# clear pip cache
-RUN pip install -r requirements.txt --no-cache-dir
+RUN pip install -r requirements.txt
 
 COPY . /code/
