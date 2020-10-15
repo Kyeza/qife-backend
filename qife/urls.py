@@ -18,6 +18,12 @@ from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.authtoken.views import obtain_auth_token
+from django.views.generic import TemplateView
+from rest_framework.schemas import get_schema_view
+
+admin.AdminSite.site_header = 'QIFE administration'
+admin.AdminSite.site_title = 'QIFE administration'
 
 
 def trigger_error(request):
@@ -28,6 +34,19 @@ urlpatterns = [
     path('sentry-debug/', trigger_error),
     path('admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
+    path('api-token-auth/', obtain_auth_token, name='api-token-auth/'),
+    path('qife/<version>/', include('users.urls')),
+
+    #     swagger urls
+    path('openapi', get_schema_view(
+        title="QIFE API",
+        description="API for all things …",
+        version="v1"
+    ), name='openapi-schema'),
+    path('qife/<version>/api/swagger-ui/', TemplateView.as_view(
+        template_name='swagger-ui.html',
+        extra_context={'schema_url': 'openapi-schema'}
+    ), name='swagger-ui'),
 ]
 
 # django debugging toolbar, only to work in debug mode
