@@ -28,7 +28,7 @@ heroku:
 	git push heroku master
 
 up:
-	docker-compose up -d
+	docker-compose up -d --build
 
 provision:
 	docker-compose exec qife_api python manage.py makemigrations
