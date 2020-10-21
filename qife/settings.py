@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     'coverage',
     'corsheaders',
     'users.apps.UsersConfig',
+    'main.apps.MainConfig',
+    'payments.apps.PaymentsConfig',
 ]
 
 MIDDLEWARE = [
