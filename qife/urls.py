@@ -32,10 +32,10 @@ def trigger_error(request):
 
 urlpatterns = [
     path('sentry-debug/', trigger_error),
-    path('admin/', admin.site.urls),
+    path('qife/dashboard/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
     path('api-token-auth/', obtain_auth_token, name='api-token-auth/'),
-    path('qife/<version>/', include('users.urls')),
+    path('qife/<version>/', include('main.urls')),
 
     #     swagger urls
     path('openapi', get_schema_view(

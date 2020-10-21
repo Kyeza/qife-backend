@@ -1,5 +1,3 @@
-import uuid
-
 from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
@@ -7,27 +5,8 @@ from django.db import models
 from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
 
+from main.models import BaseModel
 from users import utils
-
-
-class BaseModel(models.Model):
-    """
-    Abstract base model to be inherited by other application models
-    """
-
-    class Meta:
-        abstract = True
-
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, db_index=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    deleted_at = models.DateTimeField(null=True, blank=True)
-    is_deleted = models.BooleanField(default=False)
-
-    def soft_delete(self):
-        self.deleted_at = timezone.now()
-        self.is_deleted = True
-        self.save()
 
 
 class UserManager(BaseUserManager):
