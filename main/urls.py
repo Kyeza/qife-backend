@@ -7,7 +7,8 @@ from users.api import UserViewSet
 
 router = routers.DefaultRouter()
 router.register('items', ItemViewSet)
-router.register('users', UserViewSet)
+router.register('users', UserViewSet, basename="users")
+
 
 urlpatterns = [
     path('api/', include(router.urls)),
