@@ -27,8 +27,11 @@ superuser:
 heroku:
 	git push heroku master
 
-up:
-	docker-compose up -d --build
+build:
+	docker-compose build
+
+deploy:
+	docker-compose up -d
 
 provision:
 	docker-compose exec qife_api python manage.py makemigrations
