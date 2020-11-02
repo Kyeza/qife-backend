@@ -15,13 +15,13 @@ services:
   qife_api:
     build: .
     image: &api api
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn --bind 0.0.0.0:8000 qife.wsgi
     env_file:
       - .env
     volumes:
       - .:/code
-    expose:
-      - 8000
+    ports:
+      - "8000:8000"
     depends_on:
       - db
       - redis
