@@ -27,8 +27,6 @@ class UserSerializer(serializers.ModelSerializer):
             if validated_data.get('location'):
                 user.location = validated_data.get('location')
 
-            
-
         return user
 
     def update(self, instance, validated_data):
@@ -37,7 +35,6 @@ class UserSerializer(serializers.ModelSerializer):
         instance.new_user = validated_data.get('new_user')
         instance.first_name = validated_data.get('first_name')
         instance.last_name = validated_data.get('last_name')
-        
 
         return instance
 
