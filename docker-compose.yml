@@ -15,7 +15,7 @@ services:
   qife_api:
     build: .
     image: &api api
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn --bind 0.0.0.0:8000 qife.wsgi
     env_file:
       - .env
     volumes:
@@ -52,6 +52,15 @@ services:
     image: alpine
     command: sh -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
     privileged: true
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - .:/code
+    ports:
+      - 80:80
+    depends_on:
+      - qife_api
 
 volumes:
   mysql_data:

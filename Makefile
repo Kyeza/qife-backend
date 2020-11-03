@@ -27,7 +27,10 @@ superuser:
 heroku:
 	git push heroku master
 
-up:
+build:
+	docker-compose build
+
+deploy:
 	docker-compose up -d
 
 provision:
