@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  db:
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+  qife_api:
+    build: .
+    image: &api api
+    command: python manage.py runserver 0.0.0.0:8000
+    env_file:
+      - .env
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+      - celery
+  celery:
+    build: .
+    image: *api
+    env_file:
+      - .env
+    command: celery -A qife worker --loglevel=info -E -Q celery --uid=celery
+    volumes:
+      - .:/code
+    depends_on:
+      - redis
+      - db
+  redis:
+    image: 'redis:5.0.7-alpine'
+    ports:
+      - '16379:6379'
+    volumes:
+      - 'redis_data:/data'
+    depends_on:
+      - helper
+      - db
+    sysctls:
+      - net.core.somaxconn=511
+  helper:
+    image: alpine
+    command: sh -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
+    privileged: true
+
+volumes:
+  mysql_data:
+  redis_data:
