@@ -30,11 +30,12 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
-        instance.user_type = validated_data.get('user_type')
-        instance.location = validated_data.get('location')
-        instance.new_user = validated_data.get('new_user')
-        instance.first_name = validated_data.get('first_name')
-        instance.last_name = validated_data.get('last_name')
+        instance.user_type = validated_data.get('user_type', instance.user_type)
+        instance.location = validated_data.get('location', instance.location)
+        instance.new_user = validated_data.get('new_user', instance.new_user)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.save()
 
         return instance
 

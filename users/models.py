@@ -52,10 +52,12 @@ class User(AbstractUser, BaseModel):
         FARMER = 'FARMER', 'Farmer'
         EQUIP_OWNER = 'EQUIP_OWNER', 'Equipment Owner'
 
+    first_name = models.CharField(verbose_name='first name', max_length=200, null=True, blank=True)
+    last_name = models.CharField(verbose_name='last name', max_length=200, null=True, blank=True)
     phone_number = PhoneNumberField(verbose_name='phone number', unique=True, blank=True, null=True)
     user_type = models.CharField(max_length=20, choices=UserTypes.choices, null=True, blank=True)
     location = models.CharField(max_length=150, null=True, blank=True)
-    new_user = models.BooleanField(default=True)
+    new_user = models.BooleanField(default=True, null=True, blank=True)
     objects = UserManager()
 
     def __str__(self):
