@@ -28,8 +28,17 @@ class BaseModel(models.Model):
 class ItemCategory(BaseModel):
     name = models.CharField(max_length=30)
 
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'Item Category'
+        verbose_name_plural = 'Item Categories'
+
+    def __str__(self):
+        return str(self.name)
+
 
 class Item(BaseModel):
+    item_name = models.CharField(max_length=30, null=True, blank=True)
     image = models.ImageField(default='default.png', upload_to=get_image_filename, null=True, blank=True)
     owner = models.ForeignKey('users.EquipmentOwner', on_delete=models.CASCADE, null=True, blank=True)
     location = models.CharField(max_length=40, null=True, blank=True)
@@ -37,3 +46,11 @@ class Item(BaseModel):
     cost = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+
+    class Meta:
+        ordering = ('item_name',)
+        verbose_name = 'Item'
+        verbose_name_plural = 'Items'
+
+    def __str__(self):
+        return str(self.item_name)

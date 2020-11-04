@@ -7,8 +7,6 @@ db.sqlite3
 .DS_store
 media/*
 
-celery_service.py
-
 # Backup files #
 *.bak
 
