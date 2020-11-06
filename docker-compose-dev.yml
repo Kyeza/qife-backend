@@ -9,19 +9,19 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     image: mysql:5.7
     ports:
-      - "3306:3306"
+      - "3307:3307"
     volumes:
       - mysql_data:/var/lib/mysql
   qife_api:
     build: .
     image: &api api
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8001
     env_file:
       - .env
     volumes:
       - .:/code
     ports:
-      - "8000:8000"
+      - "8001:8001"
     depends_on:
       - db
       - redis
