@@ -16,7 +16,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ['owner', 'item_name', 'cost', 'description', 'availability', 'category', 'location', 'image']
+        fields = ['uuid', 'owner', 'item_name', 'cost', 'description', 'availability', 'category', 'location', 'image']
 
     def create(self, validated_data):
         item = Item.objects.create(item_name=validated_data['item_name'], image=validated_data.get('image'),
