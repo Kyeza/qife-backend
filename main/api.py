@@ -17,6 +17,8 @@ class ItemViewSet(viewsets.ModelViewSet):
     lookup_field = 'uuid'
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    # search_fields = ['item_name', 'location', 'category__name']
+    filterset_fields = ['item_name', 'location', 'category__name']
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly
     ]
